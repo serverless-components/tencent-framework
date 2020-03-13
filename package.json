@@ -1,7 +1,7 @@
 {
   "name": "@serverless/tencent-framework",
   "description": "Tencent Cloud Framework Serverless Component",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "serverless.js",
   "publishConfig": {
     "access": "public"

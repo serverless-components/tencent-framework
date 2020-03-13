@@ -1,0 +1,21 @@
+myFramework:
+  # component: '@serverless/tencent-framework'
+  component: ../
+  inputs:
+    framework: test
+    functionName: framework-function
+    region: ap-guangzhou
+    handler: app.handler
+    runtime: Nodejs8.9
+    code: ./
+    functionConf:
+      timeout: 30
+      memorySize: 128
+    environment:
+      variables:
+        RUN_ENV: test
+    apigatewayConf:
+      protocols:
+        - http
+        - https
+      environment: release

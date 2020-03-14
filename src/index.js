@@ -205,52 +205,57 @@ class TencentFramework extends Component {
       'apigateway'
     )
 
-    await tencentCloudFunction(functionConf)
-    const tencentApiGatewayOutputs = await tencentApiGateway(apigatewayConf)
+    const functionOutputs = await tencentCloudFunction(functionConf)
 
     const outputs = {
       functionName: functionConf.name,
-      cns: []
+      functionOutputs
     }
 
-    const cnsRegion = {}
+    // if not disable, then create apigateway
+    if (!apigatewayConf.isDisabled) {
+      const tencentApiGatewayOutputs = await tencentApiGateway(apigatewayConf)
 
-    if (region.length == 1) {
-      const [curRegion] = region
-      outputs.region = curRegion
-      const curApigwOutput = tencentApiGatewayOutputs[curRegion]
-      outputs.apiGatewayServiceId = curApigwOutput.serviceId
-      outputs.url = `${this.getDefaultProtocol(curApigwOutput.protocols)}://${
-        curApigwOutput.subDomain
-      }/${curApigwOutput.environment}/`
-      cnsRegion[curRegion] = curApigwOutput.subDomain
-    } else {
-      for (let i = 0; i < region.length; i++) {
-        const curRegion = region[i]
+      const cnsRegion = {}
+
+      if (region.length == 1) {
+        const [curRegion] = region
+        outputs.region = curRegion
         const curApigwOutput = tencentApiGatewayOutputs[curRegion]
-        const tempData = {
-          apiGatewayServiceId: curApigwOutput.serviceId,
-          url: `${this.getDefaultProtocol(curApigwOutput.protocols)}://${
-            curApigwOutput.subDomain
-          }/${curApigwOutput.environment}/`
-        }
+        outputs.apiGatewayServiceId = curApigwOutput.serviceId
+        outputs.url = `${this.getDefaultProtocol(curApigwOutput.protocols)}://${
+          curApigwOutput.subDomain
+        }/${curApigwOutput.environment}/`
         cnsRegion[curRegion] = curApigwOutput.subDomain
-        outputs[curRegion] = tempData
+      } else {
+        for (let i = 0; i < region.length; i++) {
+          const curRegion = region[i]
+          const curApigwOutput = tencentApiGatewayOutputs[curRegion]
+          const tempData = {
+            apiGatewayServiceId: curApigwOutput.serviceId,
+            url: `${this.getDefaultProtocol(curApigwOutput.protocols)}://${
+              curApigwOutput.subDomain
+            }/${curApigwOutput.environment}/`
+          }
+          cnsRegion[curRegion] = curApigwOutput.subDomain
+          outputs[curRegion] = tempData
+        }
       }
-    }
 
-    for (let i = 0; i < cnsConf.length; i++) {
-      const curCns = cnsConf[i]
-      for (let j = 0; j < curCns.records.length; j++) {
-        curCns.records[j].value =
-          cnsRegion[curCns.records[j].value.replace('temp_value_about_', '')]
+      outputs.cns = []
+      for (let i = 0; i < cnsConf.length; i++) {
+        const curCns = cnsConf[i]
+        for (let j = 0; j < curCns.records.length; j++) {
+          curCns.records[j].value =
+            cnsRegion[curCns.records[j].value.replace('temp_value_about_', '')]
+        }
+        const tencentCns = await this.load('@serverless/tencent-cns', curCns.domain)
+        const tencentCnsOutputs = await tencentCns(curCns)
+        if (tencentCnsOutputs.DNS) {
+          outputs.DNS = tencentCnsOutputs.DNS
+        }
+        outputs.cns.push(curCns.domain)
       }
-      const tencentCns = await this.load('@serverless/tencent-cns', curCns.domain)
-      const tencentCnsOutputs = await tencentCns(curCns)
-      if (tencentCnsOutputs.DNS) {
-        outputs.DNS = tencentCnsOutputs.DNS
-      }
-      outputs.cns.push(curCns.domain)
     }
 
     this.state = outputs
@@ -274,9 +279,12 @@ class TencentFramework extends Component {
     await tencentCloudFunction.remove(removeInput)
     await tencentApiGateway.remove(removeInput)
 
-    for (let i = 0; i < this.state.cns.length; i++) {
-      const tencentCns = await this.load('@serverless/tencent-cns', this.state.cns[i])
-      await tencentCns.remove(removeInput)
+    const { cns } = this.state
+    if (cns && cns.length > 0) {
+      for (let i = 0; i < cns.length; i++) {
+        const tencentCns = await this.load('@serverless/tencent-cns', this.state.cns[i])
+        await tencentCns.remove(removeInput)
+      }
     }
 
     this.state = {}

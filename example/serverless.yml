@@ -1,6 +1,5 @@
 myFramework:
-  # component: '@serverless/tencent-framework'
-  component: ../
+  component: '@serverless/tencent-framework'
   inputs:
     framework: test
     functionName: framework-function

@@ -138,6 +138,7 @@ Main param description
 | usagePlan    |     Optional      |                                                                                                          |
 | auth         |     Optional      |                                                                                                          |
 | customDomain |     Optional      | Custom API Domain                                                                                        |
+| isDisabled   |     Optional      | Desable auto create api gateway service, Default: false                                                  |
 
 - usagePlan param description
 

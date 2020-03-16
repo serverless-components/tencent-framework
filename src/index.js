@@ -7,6 +7,7 @@ const { Component } = require('@serverless/core')
 const DEFAULTS = {
   handler: 'index.main_handler',
   runtime: 'Nodejs8.9',
+  namespace: 'default',
   exclude: ['.git/**', '.gitignore', '.DS_Store'],
   timeout: 3,
   memorySize: 128
@@ -74,6 +75,12 @@ class TencentFramework extends Component {
           ? [inputs.region]
           : inputs.region
         : ['ap-guangzhou'],
+      namespace: ensureString(
+        tempFunctionConf && tempFunctionConf.namespace
+          ? tempFunctionConf.namespace
+          : inputs.namespace,
+        { default: DEFAULTS.namespace }
+      ),
       handler: ensureString(
         tempFunctionConf && tempFunctionConf.handler ? tempFunctionConf.handler : inputs.handler,
         { default: DEFAULTS.handler }

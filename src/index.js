@@ -1,5 +1,6 @@
 const ensureIterable = require('type/iterable/ensure')
 const ensureString = require('type/string/ensure')
+const ensureObject = require('type/object/ensure')
 const random = require('ext/string/random')
 const { Component } = require('@serverless/core')
 
@@ -83,6 +84,10 @@ class TencentFramework extends Component {
       ),
       fromClientRemark
     }
+    functionConf.tags = ensureObject(
+      tempFunctionConf && tempFunctionConf.tags ? tempFunctionConf.tags : inputs.tags,
+      { default: {} }
+    )
     functionConf.include = ensureIterable(
       tempFunctionConf && tempFunctionConf.include ? tempFunctionConf.include : inputs.include,
       { default: [], ensureItem: ensureString }
@@ -218,7 +223,7 @@ class TencentFramework extends Component {
 
       const cnsRegion = {}
 
-      if (region.length == 1) {
+      if (region.length === 1) {
         const [curRegion] = region
         outputs.region = curRegion
         const curApigwOutput = tencentApiGatewayOutputs[curRegion]
@@ -228,8 +233,7 @@ class TencentFramework extends Component {
         }/${curApigwOutput.environment}/`
         cnsRegion[curRegion] = curApigwOutput.subDomain
       } else {
-        for (let i = 0; i < region.length; i++) {
-          const curRegion = region[i]
+        region.forEach((curRegion) => {
           const curApigwOutput = tencentApiGatewayOutputs[curRegion]
           const tempData = {
             apiGatewayServiceId: curApigwOutput.serviceId,
@@ -239,16 +243,16 @@ class TencentFramework extends Component {
           }
           cnsRegion[curRegion] = curApigwOutput.subDomain
           outputs[curRegion] = tempData
-        }
+        })
       }
 
       outputs.cns = []
       for (let i = 0; i < cnsConf.length; i++) {
         const curCns = cnsConf[i]
-        for (let j = 0; j < curCns.records.length; j++) {
-          curCns.records[j].value =
-            cnsRegion[curCns.records[j].value.replace('temp_value_about_', '')]
-        }
+        curCns.records = curCns.records.map((item) => {
+          item.value = cnsRegion[item.value.replace('temp_value_about_', '')]
+          return item
+        })
         const tencentCns = await this.load('@serverless/tencent-cns', curCns.domain)
         const tencentCnsOutputs = await tencentCns(curCns)
         if (tencentCnsOutputs.DNS) {

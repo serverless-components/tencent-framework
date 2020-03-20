@@ -66,10 +66,8 @@ class TencentFramework extends Component {
         this.state.functionName ||
         `${framework}_component_${random({ length: 6 })}`,
       codeUri:
-        ensureString(
-          tempFunctionConf && tempFunctionConf.code ? tempFunctionConf.code : inputs.code,
-          { isOptional: true }
-        ) || process.cwd(),
+        (tempFunctionConf && tempFunctionConf.code ? tempFunctionConf.code : inputs.code) ||
+        process.cwd(),
       region: inputs.region
         ? typeof inputs.region == 'string'
           ? [inputs.region]

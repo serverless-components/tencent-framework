@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/serverless-components/tencent-framework/compare/v0.0.4...v0.0.5) (2020-03-20)
+
+
+### Bug Fixes
+
+* supporting bucket name and key config for code ([7923127](https://github.com/serverless-components/tencent-framework/commit/79231274b7b835affbeeea65b96affac93956484))
+
 ### [0.0.4](https://github.com/serverless-components/tencent-framework/compare/v0.0.3...v0.0.4) (2020-03-16)
 
 

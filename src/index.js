@@ -10,7 +10,8 @@ const DEFAULTS = {
   namespace: 'default',
   exclude: ['.git/**', '.gitignore', '.DS_Store'],
   timeout: 3,
-  memorySize: 128
+  memorySize: 128,
+  description: 'This is a function created by serverless component'
 }
 
 class TencentFramework extends Component {
@@ -56,7 +57,7 @@ class TencentFramework extends Component {
 
   async prepareInputs(inputs = {}) {
     // 对function inputs进行标准化
-    const tempFunctionConf = inputs.functionConf ? inputs.functionConf : undefined
+    const tempFunctionConf = inputs.functionConf ? inputs.functionConf : {}
     const { framework } = inputs
     const fromClientRemark = `tencent-${framework}`
 
@@ -65,40 +66,39 @@ class TencentFramework extends Component {
         ensureString(inputs.functionName, { isOptional: true }) ||
         this.state.functionName ||
         `${framework}_component_${random({ length: 6 })}`,
-      codeUri:
-        (tempFunctionConf && tempFunctionConf.code ? tempFunctionConf.code : inputs.code) ||
-        process.cwd(),
+      codeUri: (tempFunctionConf.code ? tempFunctionConf.code : inputs.code) || process.cwd(),
       region: inputs.region
         ? typeof inputs.region == 'string'
           ? [inputs.region]
           : inputs.region
         : ['ap-guangzhou'],
       namespace: ensureString(
-        tempFunctionConf && tempFunctionConf.namespace
-          ? tempFunctionConf.namespace
-          : inputs.namespace,
+        tempFunctionConf.namespace ? tempFunctionConf.namespace : inputs.namespace,
         { default: DEFAULTS.namespace }
       ),
-      handler: ensureString(
-        tempFunctionConf && tempFunctionConf.handler ? tempFunctionConf.handler : inputs.handler,
-        { default: DEFAULTS.handler }
-      ),
-      runtime: ensureString(
-        tempFunctionConf && tempFunctionConf.runtime ? tempFunctionConf.runtime : inputs.runtime,
-        { default: DEFAULTS.runtime }
+      handler: ensureString(tempFunctionConf.handler ? tempFunctionConf.handler : inputs.handler, {
+        default: DEFAULTS.handler
+      }),
+      runtime: ensureString(tempFunctionConf.runtime ? tempFunctionConf.runtime : inputs.runtime, {
+        default: DEFAULTS.runtime
+      }),
+      description: ensureString(
+        tempFunctionConf.description ? tempFunctionConf.description : inputs.description,
+        {
+          default: DEFAULTS.description
+        }
       ),
       fromClientRemark
     }
-    functionConf.tags = ensureObject(
-      tempFunctionConf && tempFunctionConf.tags ? tempFunctionConf.tags : inputs.tags,
-      { default: {} }
-    )
+    functionConf.tags = ensureObject(tempFunctionConf.tags ? tempFunctionConf.tags : inputs.tags, {
+      default: {}
+    })
     functionConf.include = ensureIterable(
-      tempFunctionConf && tempFunctionConf.include ? tempFunctionConf.include : inputs.include,
+      tempFunctionConf.include ? tempFunctionConf.include : inputs.include,
       { default: [], ensureItem: ensureString }
     )
     functionConf.exclude = ensureIterable(
-      tempFunctionConf && tempFunctionConf.exclude ? tempFunctionConf.exclude : inputs.exclude,
+      tempFunctionConf.exclude ? tempFunctionConf.exclude : inputs.exclude,
       { default: [], ensureItem: ensureString }
     )
     functionConf.exclude.push('.git/**', '.gitignore', '.serverless', '.DS_Store')

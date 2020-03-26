@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/serverless-components/tencent-framework/compare/v0.0.5...v0.0.6) (2020-03-26)
+
+
+### Bug Fixes
+
+* support function description config ([d466d49](https://github.com/serverless-components/tencent-framework/commit/d466d49628b25d40226d0743d64137b59f7c8679))
+
 ### [0.0.5](https://github.com/serverless-components/tencent-framework/compare/v0.0.4...v0.0.5) (2020-03-20)
 
 

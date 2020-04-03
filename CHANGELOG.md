@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/serverless-components/tencent-framework/compare/v0.0.7...v0.1.0) (2020-04-03)
+
+
+### Bug Fixes
+
+* update npm ignore ([3ce0bc3](https://github.com/serverless-components/tencent-framework/commit/3ce0bc3115d849d1072a65760e719768f7dfcd37))
+
 ### [0.0.7](https://github.com/serverless-components/tencent-framework/compare/v0.0.6...v0.0.7) (2020-04-03)
 
 

@@ -8,6 +8,14 @@ coverage
 env.js
 tmp
 test
+*.test.js
 .vscode
 yarn.lock
 package-lock.json
+docs
+.editorconfig
+.eslintignore
+.eslintrc.js
+.prettierignore
+commitlint.config.js
+prettier.config.js

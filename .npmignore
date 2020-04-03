@@ -8,3 +8,6 @@ coverage
 env.js
 tmp
 test
+.vscode
+yarn.lock
+package-lock.json

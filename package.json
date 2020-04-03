@@ -47,9 +47,9 @@
   },
   "dependencies": {
     "@serverless/core": "^1.1.2",
-    "@serverless/tencent-apigateway-multi-region": "^0.0.3",
-    "@serverless/tencent-cns": "^0.0.4",
-    "@serverless/tencent-domain": "^0.0.2",
+    "@serverless/tencent-apigateway-multi-region": "^0.0.4",
+    "@serverless/tencent-cns": "^0.0.5",
+    "@serverless/tencent-domain": "^0.0.4",
     "@serverless/tencent-scf-multi-region": "^0.0.4",
     "ext": "^1.4.0",
     "type": "^2.0.0"

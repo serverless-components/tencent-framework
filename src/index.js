@@ -120,11 +120,15 @@ class TencentFramework extends Component {
     // 对apigw inputs进行标准化
     const apigatewayConf = inputs.apigatewayConf ? inputs.apigatewayConf : {}
     apigatewayConf.fromClientRemark = fromClientRemark
-    apigatewayConf.serviceName = inputs.serviceName
-    apigatewayConf.description = `Serverless Framework Tencent-${this.capitalString(
-      framework
-    )} Component`
-    apigatewayConf.serviceId = inputs.serviceId
+    apigatewayConf.description =
+      apigatewayConf.description ||
+      `Serverless Framework Tencent-${this.capitalString(framework)} Component`
+    apigatewayConf.serviceName = apigatewayConf.serviceName
+      ? apigatewayConf.serviceName
+      : inputs.serviceName
+    apigatewayConf.serviceId = apigatewayConf.serviceId
+      ? apigatewayConf.serviceId
+      : inputs.serviceId
     apigatewayConf.region = functionConf.region
     apigatewayConf.protocols = apigatewayConf.protocols || ['http']
     apigatewayConf.environment = apigatewayConf.environment ? apigatewayConf.environment : 'release'

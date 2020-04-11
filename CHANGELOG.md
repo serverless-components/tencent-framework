@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/serverless-components/tencent-framework/compare/v0.1.1...v0.1.2) (2020-04-11)
+
+
+### Bug Fixes
+
+* apigw serviceId and serviceName config ([7fdbfd2](https://github.com/serverless-components/tencent-framework/commit/7fdbfd2ddeed2d0a2edf4cf62c6a653ab31dc9cc))
+
 ### [0.1.1](https://github.com/serverless-components/tencent-framework/compare/v0.1.0...v0.1.1) (2020-04-03)
 
 

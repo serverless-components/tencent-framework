@@ -76,6 +76,9 @@ class TencentFramework extends Component {
         tempFunctionConf.namespace ? tempFunctionConf.namespace : inputs.namespace,
         { default: DEFAULTS.namespace }
       ),
+      role: ensureString(tempFunctionConf.role ? tempFunctionConf.role : inputs.role, {
+        default: ''
+      }),
       handler: ensureString(tempFunctionConf.handler ? tempFunctionConf.handler : inputs.handler, {
         default: DEFAULTS.handler
       }),

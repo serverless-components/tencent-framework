@@ -91,7 +91,8 @@ class TencentFramework extends Component {
           default: DEFAULTS.description
         }
       ),
-      fromClientRemark
+      fromClientRemark,
+      layers: inputs.layers || []
     }
     functionConf.tags = ensureObject(tempFunctionConf.tags ? tempFunctionConf.tags : inputs.tags, {
       default: {}
@@ -222,7 +223,10 @@ class TencentFramework extends Component {
       'apigateway'
     )
 
-    const functionOutputs = await tencentCloudFunction(functionConf)
+    let functionOutputs = await tencentCloudFunction(functionConf)
+    if (region.length === 1) {
+      functionOutputs = functionOutputs[region]
+    }
 
     const outputs = {
       functionName: functionConf.name,

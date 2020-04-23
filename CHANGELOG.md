@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/serverless-components/tencent-framework/compare/v0.1.3...v0.1.4) (2020-04-23)
+
+
+### Features
+
+* add layers support ([546d1e8](https://github.com/serverless-components/tencent-framework/commit/546d1e8d00827d35615e55aa10a84920c7a0642b))
+
 ### [0.1.3](https://github.com/serverless-components/tencent-framework/compare/v0.1.2...v0.1.3) (2020-04-13)
 
 
